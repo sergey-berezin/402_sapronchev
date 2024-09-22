@@ -1,9 +1,9 @@
-﻿namespace TravellingTaskGeneticSolver
+﻿using System.Collections.Concurrent;
+
+namespace TravellingTaskGeneticSolver
 {
     public class TravellingSolver
     {
-        private Random _random = new Random();
-
         private readonly int _populationCount;
         private readonly double _mutationFrequency;
 
@@ -41,6 +41,8 @@
 
         private Route TournamentSelection(List<Route> population, int tournamentSize)
         {
+            Random _random = new Random();
+
             var tournament = new List<Route>();
             for (int i = 0; i < tournamentSize; i++)
             {
@@ -53,22 +55,22 @@
 
         private List<Route> MakeIteration(List<Route> population)
         {
-            var newPopulation = new List<Route>();
+            var newPopulation = new ConcurrentBag<Route>();
 
             var bestInGeneration = population.OrderBy(route => route.CalculateTotalDistance(_distMatrix)).First();
             newPopulation.Add(bestInGeneration);
 
-            for (int i = 0; i < _populationCount; i++)
+            Parallel.For(0, _populationCount, i =>
             {
                 Route parent1 = TournamentSelection(population, 5);
                 Route parent2 = TournamentSelection(population, 5);
                 Route child = Route.Crossover(parent1, parent2);
-                child.Mutate(_mutationFrequency);
+                Route newRoute = Route.Mutate(child, _mutationFrequency);
 
-                newPopulation.Add(child);
-            }
-
-            population = newPopulation;
+                newPopulation.Add(newRoute);
+            });
+            
+            population = newPopulation.ToList();
 
             foreach (var route in population)
             {
@@ -80,7 +82,7 @@
                 }
             }
 
-            return newPopulation;
+            return population;
         }
         public Route Run(int maxGenerations, out double bestDistance)
         {

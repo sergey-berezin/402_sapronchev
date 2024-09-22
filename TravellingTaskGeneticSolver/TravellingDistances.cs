@@ -24,8 +24,16 @@
             {
                 double[] newRow = new double[numCities - i - 1];
                 for (int j = 0; j < numCities - i - 1; j++)
-                    newRow[j] = random.NextDouble() * 100;
+                {
+                    var dist = random.NextDouble() * 100;
+                    for (int k = 0; k < i; k++)
+                    {
+                        // Ensure triangle inequality holds
+                        dist = Math.Min(dist, distanceMatrix.GetDistance(i, k) + distanceMatrix.GetDistance(k, j));
+                    }
+                    newRow[j] = dist;
 
+                }
                 distanceMatrix.SetDistanceRow(i, newRow);
             }
             return distanceMatrix;
