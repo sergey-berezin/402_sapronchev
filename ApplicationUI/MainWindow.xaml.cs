@@ -47,12 +47,12 @@ namespace ApplicationUI
             StartButton.IsEnabled = false;
             StopButton.IsEnabled = true;
 
-            var best = await Task.Run(() =>
+            var best = await Task.Factory.StartNew(() =>
             {
                 double bestDistance = 0.0;
                 Route bestRoute = _solver?.RunInfinitly(out bestDistance)!;
                 return bestRoute;
-            });
+            }, TaskCreationOptions.LongRunning);
 
             GenerateOutput(best, distanceMatrix);
 
