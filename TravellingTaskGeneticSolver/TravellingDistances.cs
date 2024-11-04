@@ -1,13 +1,18 @@
-﻿namespace TravellingTaskGeneticSolver
+﻿using Newtonsoft.Json;
+
+namespace TravellingTaskGeneticSolver
 {
     public class TravellingDistances
     {
+        [JsonProperty]
         private double[][] _matrix;
+        [JsonProperty]
         private readonly int _size;
         public int Size
         {
             get { return _size; }
         }
+        public TravellingDistances() { }
 
         public TravellingDistances(int numCities)
         {

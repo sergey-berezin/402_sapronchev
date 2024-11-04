@@ -1,0 +1,30 @@
+﻿<Window x:Class="ApplicationUI.SelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ApplicationUI"
+        mc:Ignorable="d"
+        Title="SelectionWindow" Height="350" Width="400">
+    <ScrollViewer>
+        <Grid>
+            <ListBox x:Name="ExperimentListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Width="150" />
+                            <TextBlock Text="{Binding CreationDate, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" Width="150" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+                <Button Content="Delete" Width="75" Margin="5" Click="DeleteButton_Click" />
+                <Button Content="Select" Width="75" Margin="5" Click="SelectButton_Click" />
+            </StackPanel>
+    </Grid>
+    </ScrollViewer>
+
+
+</Window>

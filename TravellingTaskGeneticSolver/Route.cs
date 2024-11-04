@@ -1,12 +1,18 @@
-﻿namespace TravellingTaskGeneticSolver
+﻿using Newtonsoft.Json;
+
+namespace TravellingTaskGeneticSolver
 {
     public class Route
     {
-        private int[] _cities;
+        [JsonProperty]
+        public int[] _cities;
+
         public int[] Cities
         {
             get { return (int[])_cities.Clone(); }
         }
+
+        public Route() { }
 
         private Route(int[] cities)
         {
